@@ -11,7 +11,6 @@ This project visualizes a 2D robotic arm with three links using Python and Matpl
 * **Vector Mathematics**: Uses vector addition and rotation matrices for accurate joint position calculations.
 * **Cumulative Joint Angles**: Implements forward kinematics by summing joint angles to rotate links relative to previous joints.
 * **Color-coded Visualization**: Displays the robotic arm with colored links and labeled joints for easy understanding.
-* **Clean, Modular Code**: Includes a helper function for 2D rotation and dynamic plotting for scalability.
 
 ## Code Explanation
 
