@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 def rotate_vector(vector, angle_deg):
     """Rotate a 2D vector by angle in degrees."""
@@ -10,48 +9,49 @@ def rotate_vector(vector, angle_deg):
     ])
     return rot_matrix @ vector
 
-# Define links as vectors along the x-axis
-links = [np.array([3, 0]), np.array([2, 0]), np.array([2, 0])]
+def calculate_positions(angles, links):
+    """Calculate joint positions for given angles and links."""
+    cumulative_angles = np.cumsum(angles)
+    positions = [np.array([0, 0])]  # origin
+    
+    for i, (link, angle) in enumerate(zip(links, cumulative_angles)):
+        rotated_link = rotate_vector(link, angle)
+        new_pos = positions[-1] + rotated_link
+        positions.append(new_pos)
+    
+    return positions
 
-# Joint angles in degrees (can be positive or negative)
-angles = [70, -30, -45]
+def calculate_torques(positions, force):
+    """Calculate torques at each joint for given positions and force."""
+    # Torque = r × F (cross product)
+    torques = []
+    # Base torque (from origin to end effector)
+    r_base = positions[-1] - positions[0]
+    torques.append(r_base[0] * force[1] - r_base[1] * force[0])
+    
+    # Joint torques (relative to each joint)
+    for i in range(1, len(positions)-1):
+        r_joint = positions[-1] - positions[i]
+        torques.append(r_joint[0] * force[1] - r_joint[1] * force[0])
+    
+    return torques
 
-# Calculate cumulative angles for each link
-cumulative_angles = np.cumsum(angles)
-
-# Calculate joint positions
-positions = [np.array([0, 0])]  # origin
-for link, angle in zip(links, cumulative_angles):
-    rotated_link = rotate_vector(link, angle)
-    new_pos = positions[-1] + rotated_link
-    positions.append(new_pos)
-
-# Extract X and Y coordinates for plotting
-x_coords = [pos[0] for pos in positions]
-y_coords = [pos[1] for pos in positions]
-
-# Plotting with colored links
-plt.figure(figsize=(8, 8))
-
-# Plot each link with distinct color
-colors = ['b', 'g', 'r']
-for i in range(len(links)):
-    plt.plot([x_coords[i], x_coords[i+1]], [y_coords[i], y_coords[i+1]], color=colors[i], linewidth=3, label=f'Link {i+1}')
-
-# Mark the joints with black dots
-plt.scatter(x_coords, y_coords, color='k', zorder=5)
-
-# Label the joints
-labels = ['Origin', 'Joint 1', 'Joint 2', 'End Effector']
-for x, y, label in zip(x_coords, y_coords, labels):
-    plt.text(x, y, label, fontsize=12, ha='right')
-
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.title('2D Robot Arm Simulation')
-plt.grid(True)
-plt.axis('equal')
-plt.xlim(-10, 10)
-plt.ylim(-10, 10)
-plt.legend()
-plt.show()
+def run_simulation(angles, links, force, k=0.1):
+    """Run the robot arm simulation with torque effects"""
+    # Calculate original positions
+    orig_positions = calculate_positions(angles, links)
+    
+    # Calculate torques at each joint
+    torques = calculate_torques(orig_positions, force)
+    
+    # Apply torque to angles (simplified model)
+    new_angles = [
+        angles[0] + torques[0] * k,  # Base torque affects first joint
+        angles[1] + torques[1] * k,  # Joint 1 torque affects second joint
+        angles[2] + torques[2] * k   # Joint 2 torque affects third joint
+    ]
+    
+    # Calculate new positions after torque application
+    new_positions = calculate_positions(new_angles, links)
+    
+    return orig_positions, new_positions, torques, new_angles
