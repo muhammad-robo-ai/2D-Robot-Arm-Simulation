@@ -38,7 +38,7 @@ The project is organized into three modular files:
 ```
 ├── main.py             # Core calculation logic
 ├── plot.py             # Visualization functions
-├── run_viz.py          # Execution script
+├── run.py          # Execution script
 ├── results/            # Output visualizations
 │   ├── Robot_Arm_Simulation.png
 │   └── Robot_Arm_Simulation_with_Torque_Effects.png
@@ -70,7 +70,7 @@ Execution script that:
 ## Results
 
 ### 1. Basic Robot Arm Simulation
-![Basic Simulation](results/Robot%20Arm%20Simulation.pngg)
+![Basic Simulation](results/Robot%20Arm%20Simulation.png)
 
 This visualization shows the robotic arm in its default configuration:
 - Three links with lengths 3m, 2m, and 2m
