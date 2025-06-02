@@ -1,6 +1,6 @@
 # 2D Robot Arm Simulation with Torque Effects
 
-![Robot Arm Visualization](results/Robot_Arm_Simulation_with_Torque_Effects.png)
+![Robot Arm Visualization](results/Robot%20Arm%20Simulation%20with%20Torque%20Effects.png)
 
 ## Overview
 
@@ -70,7 +70,7 @@ Execution script that:
 ## Results
 
 ### 1. Basic Robot Arm Simulation
-![Basic Simulation](results/Robot_Arm_Simulation.png)
+![Basic Simulation](results/Robot%20Arm%20Simulation.pngg)
 
 This visualization shows the robotic arm in its default configuration:
 - Three links with lengths 3m, 2m, and 2m
@@ -79,7 +79,7 @@ This visualization shows the robotic arm in its default configuration:
 - Labeled joints (Base, Joint 1, Joint 2, End Effector)
 
 ### 2. Robot Arm with Torque Effects
-![Torque Effects](results/Robot_Arm_Simulation_with_Torque_Effects.png)
+![Torque Effects](results/Robot%20Arm%20Simulation%20with%20Torque%20Effects.png)
 
 This enhanced visualization demonstrates the arm's response to a vertical force:
 - **Force Applied**: 10N downward at end effector
